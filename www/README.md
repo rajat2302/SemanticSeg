@@ -1,4 +1,4 @@
-# segmentation-frontend
+# bio-segmentation
 
 ## Project setup
 ```

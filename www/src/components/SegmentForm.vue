@@ -6,25 +6,19 @@
                     <v-flex style="margin-top:50px" text-center xs12>
                         <v-row class="text-center">
                             <div :class="!!output ? '' : 'col-sm-12'" class="col-xs-12 col-sm-6">
-                                <v-card
-                                    color="blue-grey"
-                                    dark
-                                    max-width="252"
-                                    style="margin:0 auto"
-                                >
+                                <v-card elevation="18" light max-width="252" style="margin:0 auto">
                                     <img :src="imageUrl" style="width:252px; height:252px;" />
-                                    <b>Retinal Fundus</b>
+                                    <v-card-subtitle>
+                                        <b>RETINAL FUNDUS</b>
+                                    </v-card-subtitle>
                                 </v-card>
                             </div>
                             <div class="col-xs-12 col-sm-6" v-if="!!output">
-                                <v-card
-                                    color="blue-grey"
-                                    dark
-                                    max-width="252"
-                                    style="margin: 0 auto"
-                                >
+                                <v-card elevation="18" light max-width="252" style="margin: 0 auto">
                                     <img :src="output" style="width:252px; height:252px;" />
-                                    <b>Segmented Image</b>
+                                    <v-card-subtitle>
+                                        <b>SEGMENTED IMAGE</b>
+                                    </v-card-subtitle>
                                 </v-card>
                             </div>
                         </v-row>
@@ -35,10 +29,14 @@
                         <div style="margin-top:100px" v-if="imageUrl==''">
                             <v-btn
                                 @click="onPickFile"
-                                class="primary"
-                                raised
+                                class="ma-2 white--text"
+                                color="blue"
+                                fab
                                 style="margin-top:100px"
-                            >Upload Image</v-btn>
+                                x-large
+                            >
+                                <v-icon dark>mdi-cloud-upload</v-icon>
+                            </v-btn>
                             <input
                                 @change="onFilePicked"
                                 accept="image/*"
@@ -48,7 +46,13 @@
                             />
                         </div>
                         <div style="margin-top:35px" v-else-if="imageUrl">
-                            <v-btn @click="callSeg" class="primary" raised>Segment Image</v-btn>
+                            <v-btn
+                                :loading="segmenting"
+                                @click="callSeg"
+                                class="primary"
+                                raised
+                                rounded
+                            >Segment Image</v-btn>
                         </div>
                     </v-flex>
                 </v-layout>
@@ -66,6 +70,7 @@ export default {
         image: '',
         imageUrl: '',
         output: '',
+        segmenting: false,
     }),
     methods: {
         onPickFile: function() {
@@ -87,8 +92,9 @@ export default {
             this.image = files[0];
         },
         callSeg: function() {
-            const path = 'http://localhost:5000/uploader';
+            const path = '/uploader';
             let that = this;
+            this.segmenting = true;
             var formData = new FormData();
             formData.append('file', this.image);
             axios
@@ -104,9 +110,11 @@ export default {
                     console.log(image);
                     console.log(that);
                     that.output = image;
+                    that.segmenting = false;
                 })
                 .catch(function(error) {
                     console.log(error);
+                    that.segmenting = false;
                 });
         },
     },

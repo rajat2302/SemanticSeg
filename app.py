@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request,send_file
+from flask import Flask, render_template, request,send_file, abort
 from werkzeug.utils import secure_filename
 from services.segmentation import segment
+from jinja2 import TemplateNotFound
 import os
 
-app = Flask(__name__, static_folder='templates')
+app = Flask(__name__, template_folder='templates')
 
 
 @app.route('/')
 def upload_files():
-    return render_template('upload.html')
+    try:
+        return render_template('index.html')
+    except TemplateNotFound:
+        abort(404)
 
 
 @app.route('/uploader', methods=['GET', 'POST'])

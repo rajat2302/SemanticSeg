@@ -8,7 +8,7 @@
             style="margin:0 auto; margin-top:50px;"
         >
             <v-card-text>
-                <div class="headline mb-1" style="text-align:left">About</div>
+                <div class="headline mb-1" style="text-align:left">Biomedical Image Segmentation</div>
                 <br />
                 <div style="text-align:left">
                     <p>
