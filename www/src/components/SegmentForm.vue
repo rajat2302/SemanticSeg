@@ -1,5 +1,16 @@
 <template>
     <v-container>
+        <div>
+            <v-alert
+                border="left"
+                colored-border
+                dismissible
+                elevation="2"
+                type="error"
+                v-model="isError"
+            >{{errorMsg}}</v-alert>
+        </div>
+
         <v-row class="text-center">
             <v-col cols="12">
                 <v-layout v-if="imageUrl">
@@ -27,25 +38,31 @@
                 <v-layout row>
                     <v-flex text-center xs12>
                         <div style="margin-top:100px" v-if="imageUrl==''">
-                            <v-btn
-                                @click="onPickFile"
-                                class="ma-2 white--text"
-                                color="blue"
-                                fab
-                                style="margin-top:100px"
-                                x-large
-                            >
-                                <v-icon dark>mdi-cloud-upload</v-icon>
-                            </v-btn>
-                            <input
-                                @change="onFilePicked"
-                                accept="image/*"
-                                ref="fileInput"
-                                style="display: none"
-                                type="file"
-                            />
+                            <v-tooltip right>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        @click="onPickFile"
+                                        class="ma-2 white--text"
+                                        color="blue"
+                                        fab
+                                        style="margin-top:100px"
+                                        v-on="on"
+                                        x-large
+                                    >
+                                        <v-icon dark>mdi-cloud-upload</v-icon>
+                                    </v-btn>
+                                    <input
+                                        @change="onFilePicked"
+                                        accept="image/*"
+                                        ref="fileInput"
+                                        style="display: none"
+                                        type="file"
+                                    />
+                                </template>
+                                <span>Upload a clear retinal fundus image(png/jpeg) for segmentation</span>
+                            </v-tooltip>
                         </div>
-                        <div style="margin-top:35px" v-else-if="imageUrl">
+                        <div style="margin-top:35px" v-else-if="!!imageUrl & !output & !errorMsg">
                             <v-btn
                                 :loading="segmenting"
                                 @click="callSeg"
@@ -53,6 +70,9 @@
                                 raised
                                 rounded
                             >Segment Image</v-btn>
+                        </div>
+                        <div style="margin-top:35px" v-else-if="!!output | !!errorMsg">
+                            <v-btn @click="setDefault" class="primary" rounded>Reset</v-btn>
                         </div>
                     </v-flex>
                 </v-layout>
@@ -71,6 +91,8 @@ export default {
         imageUrl: '',
         output: '',
         segmenting: false,
+        isError: false,
+        errorMsg: '',
     }),
     methods: {
         onPickFile: function() {
@@ -103,6 +125,8 @@ export default {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 })
                 .then(function(response) {
+                    console.log(response.status);
+                    console.log(response);
                     let blob = new Blob([response.data], {
                         type: response.headers['content-type'],
                     });
@@ -114,8 +138,17 @@ export default {
                 })
                 .catch(function(error) {
                     console.log(error);
+                    that.isError = true;
+                    that.errorMsg = 'Something went wrong while processing the image!';
                     that.segmenting = false;
                 });
+        },
+        setDefault: function() {
+            this.output = '';
+            this.imageUrl = '';
+            this.image = '';
+            this.isError = false;
+            this.errorMsg = '';
         },
     },
 };

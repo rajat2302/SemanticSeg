@@ -4,7 +4,7 @@
             <v-container fluid>
                 <v-row dense>
                     <v-col :cols="card.flex" :key="card.title" v-for="card in cards">
-                        <v-card class="mx-auto" light max-width="344">
+                        <v-card class="mx-auto" light max-width="344" width="344px">
                             <v-img
                                 :src="card.src"
                                 class="white--text align-end"
@@ -29,43 +29,43 @@ export default {
         cards: [
             {
                 title: 'Dr Ketan Kotecha',
-                descn: 'Director SIT',
+                descn: 'Director @SIT - Project Mentor',
                 src: require('../assets/images/ketan_sir.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
                 title: 'Dr Rahee Walambe',
-                descn: 'Ass. Proffesor SIT',
+                descn: 'Ass. Proffesor @SIT - Project Mentor',
                 src: require('../assets/images/Rahee_maam.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
                 title: 'Ranjana Agrawal',
-                descn: 'Lecturar MIT',
+                descn: 'Lecturar @MIT - Project Mentor',
                 src: require('../assets/images/Ranjna_maam.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
-                title: 'Akash Dholariya',
-                descn: 'Student',
+                title: 'Akash Dholaria',
+                descn: 'CS Student @SIT',
                 src: require('../assets/images/akash.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
                 title: 'Gauri Nigam',
-                descn: 'Student',
+                descn: 'CS Student @SIT',
                 src: require('../assets/images/gauri.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
                 title: 'Rajat Pandey',
-                descn: 'Student',
+                descn: 'IT Student @SIT',
                 src: require('../assets/images/rajat.jpg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },
             {
                 title: 'Shambhavi Tiwari',
-                descn: 'Student',
+                descn: 'IT Student @SIT',
                 src: require('../assets/images/shambhu.jpeg'),
                 flex: 'window.innerWidth<668 ? 4 : 12',
             },

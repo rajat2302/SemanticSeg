@@ -29,4 +29,4 @@ def upload_file():
 
         return send_file(output_path, mimetype='image/gif')
 
-app.run(port=5000, debug=True)
+app.run(host='0.0.0.0',port=8080, debug=False)
